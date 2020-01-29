@@ -31,17 +31,17 @@ GLOBAL factorial:function
 factorial: 
 
         mov eax, esp;
-        sub esp 4
-        push eax
-        mov eax, [eax+12]
+        sub esp 4;
+        push eax;
+        mov eax, [eax+12];
         cmp eax, 1;
-        je end_factorial
-        dec eax
-        mov [esp+4], eax
-        call factorial
-        mov ebx, [eax+12]
-        imul  eax,ebx 
+        je end_factorial;
+        dec eax;
+        mov [esp+4], eax;
+        call factorial;
+        mov ebx, [eax+12];
+        imul  eax,ebx ;
         
 end_factorial: 
-        mov  esp, [esp]
-        ret
+        mov  esp, [esp];
+        ret;
