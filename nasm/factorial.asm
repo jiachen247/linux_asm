@@ -31,7 +31,7 @@ GLOBAL factorial:function
 factorial: 
 
         mov eax, esp;
-        sub esp 4;
+        sub esp, 4;
         push eax;
         mov eax, [eax+12];
         cmp eax, 1;
