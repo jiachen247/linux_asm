@@ -15,6 +15,8 @@ _start:
         push  dword 4           ; The factorial takes one argument - the
                                         ; number we want a factorial of. So, it
                                         ; gets pushed
+        push esp ; idk if this is allowed
+
         call factorial  ; run the factorial function
         add  esp,4      ; Scrubs the parameter that was pushed on
                                         ; the stack     
@@ -27,31 +29,19 @@ _start:
 
 GLOBAL factorial:function
 factorial: 
-        push  ebp               ; standard function stuff - we have to
-                                        ; restore %ebp to its prior state before
-                                        ; returning, so we have to push it
-        mov  ebp,esp    ; This is because we don’t want to modify
-                                        ; the stack pointer, so we use %ebp.
-        mov  eax, [ebp+8]       ; This moves the first argument to %eax
-                                                ; 4(%ebp) holds the return address, and
-                                                ; 8(%ebp) holds the first parameter
-        cmp  eax,1      ; If the number is 1, that is our base
-                                        ; case, and we simply return (1 is
-                                        ; already in %eax as the return value)
-        je end_factorial
-        dec  eax                ; otherwise, decrease the value
-        push  eax               ; push it for our call to factorial
-        call factorial  ; call factorial
-        mov  ebx, [ebp+8]       ; %eax has the return value, so we
-                                                ; reload our parameter into %ebx
-        imul  eax,ebx           ; multiply that by the result of the
-                                                ; last call to factorial (in %eax)
-                                                ; the answer is stored in %eax, which
-                                                ; is good since that’s where return
-                                                ; values go.
-end_factorial: 
-        mov  esp,ebp            ; standard function return stuff - we
-        pop  ebp                        ; have to restore %ebp and %esp to where
-                                                ; they were before the function started
-        ret                             ; return to the function (this pops the
 
+        mov eax, esp;
+        sub esp 4
+        push eax
+        mov eax, [eax+12]
+        cmp eax, 1;
+        je end_factorial
+        dec eax
+        mov [esp+4], eax
+        call factorial
+        mov ebx, [eax+12]
+        imul  eax,ebx 
+        
+end_factorial: 
+        mov  esp, [esp]
+        ret
