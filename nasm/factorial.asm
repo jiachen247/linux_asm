@@ -31,17 +31,17 @@ GLOBAL factorial:function
 factorial: 
 
         mov eax, esp;
-        sub esp, 4;
-        push eax;
-        mov eax, [eax+8];
+        sub esp, 4; reserve however much space you need for local vars
+        push eax; push old esp to the top of the stack
+        mov eax, [eax+8]; get paraments as ofset from old esp that can be found at the top of the stack
         cmp eax, 1;
         je end_factorial;
         dec eax;
         mov [esp+4], eax;
         call factorial;
         mov ebx, [esp+16];
-        imul  eax,ebx ;
+        imul  eax, ebx ;
         
 end_factorial: 
-        mov  esp, [esp];
+        mov  esp, [esp]; where the magic happens, reset esp to previous pointer
         ret;
